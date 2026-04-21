@@ -57,10 +57,6 @@ const feed = await fetch(
 const posts = feed.posts.filter(
   (post) => new Date(post.createdAt) > new Date(NOW - TIMER),
 );
-if (posts.length == 0) {
-  console.log(`No posts in the last ${TIMER}ms.`);
-  process.exit();
-}
 
 for (const post of posts) {
   const random = Math.floor(Math.random() * 6);
