@@ -6,7 +6,7 @@ type Feed = { posts: Post[] };
 const NOW = Date.now();
 const DISCUIT_MOD_USERNAME = "ILostTheGame";
 const DISCUIT_MOD_PASSWORD = process.env.DISCUIT_MOD_PASSWORD;
-const TIMER = 15 * 60 * 1000;
+const TIMER = 5 * 60 * 1000;
 const BAN_DURATION = 24 * 60 * 60 * 1000;
 const COMMUNITY_ID = "18a86774eed778f377e8eb05"; // RussianRoulette community id
 
