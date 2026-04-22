@@ -62,7 +62,7 @@ let somethingHappened = false;
 for (const post of posts) {
   const random = Math.floor(Math.random() * 6);
   console.log(`Rolled a ${random}`);
-  if (random == 5) {
+  if (random === 2) {
     await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
       method: "POST",
       headers,

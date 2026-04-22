@@ -50,7 +50,7 @@ const post = await fetch(
 ).then((r) => r.json());
 const random = Math.floor(Math.random() * 6);
 console.log(`Rolled a ${random}`);
-if (random == 1) {
+if (random === 2) {
   await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
     method: "POST",
     headers,
