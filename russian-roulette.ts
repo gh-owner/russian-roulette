@@ -120,6 +120,6 @@ await fetch("https://discuit.org/api/_login?action=logout", {
   }
 });
 
-if somethingHappened {
+if (somethingHappened) {
   process.exit(2);
 }
