@@ -83,27 +83,38 @@ for (const post of posts) {
   somethingHappened = true;
 }
 
-// unban everyone from more than $BAN_DURATION ago
-const oldPosts = feed.posts.filter((post) => {
-  const createdAt = new Date(post.createdAt);
-  const bannedAgo = new Date(NOW - BAN_DURATION);
-  return createdAt <= bannedAgo;
-});
-for (const post of oldPosts) {
+// unban everyone banned more than $BAN_DURATION ago
+const bannedUsers = await fetch(
+  `https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
+    headers
+  }
+).then((r) => r.json());
+for (const user of bannedUsers) {
+  const post = feed.posts.find((post) => {
+    const matchesUsername = post.username === user.username;
+
+    const createdAt = new Date(post.createdAt);
+    const bannedAgo = new Date(NOW - BAN_DURATION);
+    const correctTime = createdAt <= bannedAgo;
+
+    return matchesUsername && correctTime;
+  });
+  if (!post) continue;
+    
   await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
     method: "DELETE",
     headers,
     body: JSON.stringify({
-      username: post.username,
-    }),
+      username: user.username,
+    })
   }).then(async (r) => {
     if (!r.ok) {
       const error = await r.json();
-      console.error(`Failed to unban ${post.username}: ${error.message}`);
+      console.error(`Failed to unban ${user.username}: ${error.message}`);
       process.exit(1);
     }
   });
-  console.log(`Unbanned ${post.username}`);
+  console.log(`Unbanned ${user.username}`);
 }
 
 // log out of discuit
