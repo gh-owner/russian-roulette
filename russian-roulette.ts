@@ -58,6 +58,7 @@ const posts = feed.posts.filter(
   (post) => new Date(post.createdAt) > new Date(NOW - TIMER),
 );
 
+let somethingHappened = false;
 for (const post of posts) {
   const random = Math.floor(Math.random() * 6);
   console.log(`Rolled a ${random}`);
@@ -79,9 +80,10 @@ for (const post of posts) {
   } else {
     console.log(`${post.username} is safe today`);
   }
+  somethingHappened = true;
 }
 
-// unban everyone from more than 48 hours ago
+// unban everyone from more than $BAN_DURATION ago
 const oldPosts = feed.posts.filter((post) => {
   const createdAt = new Date(post.createdAt);
   const bannedAgo = new Date(NOW - BAN_DURATION);
@@ -103,6 +105,7 @@ for (const post of oldPosts) {
     }
   });
   console.log(`Unbanned ${post.username}`);
+  somethingHappened = true;
 }
 
 // log out of discuit
@@ -116,3 +119,7 @@ await fetch("https://discuit.org/api/_login?action=logout", {
     process.exit(1);
   }
 });
+
+if somethingHappened {
+  process.exit(2);
+}
