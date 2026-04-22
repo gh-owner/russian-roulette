@@ -87,8 +87,7 @@ for (const post of posts) {
 const oldPosts = feed.posts.filter((post) => {
   const createdAt = new Date(post.createdAt);
   const bannedAgo = new Date(NOW - BAN_DURATION);
-  const bannedAgoMinusTimer = new Date(NOW - TIMER - BAN_DURATION);
-  return bannedAgoMinusTimer <= createdAt && createdAt <= bannedAgo;
+  return createdAt <= bannedAgo;
 });
 for (const post of oldPosts) {
   await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
@@ -105,7 +104,6 @@ for (const post of oldPosts) {
     }
   });
   console.log(`Unbanned ${post.username}`);
-  somethingHappened = true;
 }
 
 // log out of discuit
