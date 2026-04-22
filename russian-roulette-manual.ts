@@ -1,12 +1,9 @@
 import process from "node:process";
 
 type Post = { createdAt: string; username: string };
-type Feed = { posts: Post[] };
 
-const NOW = Date.now();
 const DISCUIT_MOD_USERNAME = "ILostTheGame";
 const DISCUIT_MOD_PASSWORD = process.env.DISCUIT_MOD_PASSWORD;
-const TIMER = 5 * 60 * 1000;
 const BAN_DURATION = 24 * 60 * 60 * 1000;
 const COMMUNITY_ID = "18a86774eed778f377e8eb05"; // RussianRoulette community id
 const POST_ID = process.argv[2];
@@ -45,9 +42,9 @@ await fetch("https://discuit.org/api/_login", {
 });
 
 // get post from id
-const post = await fetch(
-  `https://discuit.org/api/posts/${POST_ID}`
-).then((r) => r.json());
+const post: Post = await fetch(`https://discuit.org/api/posts/${POST_ID}`).then(
+  (r) => r.json(),
+);
 const random = Math.floor(Math.random() * 6);
 console.log(`Rolled a ${random}`);
 if (random === 2) {
