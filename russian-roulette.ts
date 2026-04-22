@@ -2,6 +2,7 @@ import process from "node:process";
 
 type Post = { createdAt: string; username: string };
 type Feed = { posts: Post[] };
+type User = { username: string };
 
 const NOW = Date.now();
 const DISCUIT_MOD_USERNAME = "ILostTheGame";
@@ -84,10 +85,11 @@ for (const post of posts) {
 }
 
 // unban everyone banned more than $BAN_DURATION ago
-const bannedUsers = await fetch(
-  `https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
-    headers
-  }
+const bannedUsers: User[] = await fetch(
+  `https://discuit.org/api/communities/${COMMUNITY_ID}/banned`,
+  {
+    headers,
+  },
 ).then((r) => r.json());
 for (const user of bannedUsers) {
   const post = feed.posts.find((post) => {
@@ -100,13 +102,13 @@ for (const user of bannedUsers) {
     return matchesUsername && correctTime;
   });
   if (!post) continue;
-    
+
   await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
     method: "DELETE",
     headers,
     body: JSON.stringify({
       username: user.username,
-    })
+    }),
   }).then(async (r) => {
     if (!r.ok) {
       const error = await r.json();
