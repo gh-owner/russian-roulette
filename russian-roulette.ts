@@ -117,6 +117,7 @@ for (const user of bannedUsers) {
     }
   });
   console.log(`Unbanned ${user.username}`);
+  somethingHappened = true;
 }
 
 // log out of discuit
