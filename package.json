@@ -1,0 +1,8 @@
+{
+  "name": "russian-roulette",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "1.3.13"
+  },
+  "private": true
+}

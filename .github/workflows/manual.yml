@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: latest
-      - run: node russian-roulette-manual.ts ${{ inputs.postid }}
+      - uses: oven-sh/setup-bun@v2
+      - run: bun russian-roulette-manual.ts ${{ inputs.postid }}
         env:
           DISCUIT_MOD_PASSWORD: ${{ secrets.DISCUIT_MOD_PASSWORD }}
