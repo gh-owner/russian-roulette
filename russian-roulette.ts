@@ -40,7 +40,9 @@ for (const post of posts) {
   somethingHappened = true;
 }
 
-updateLeaderboard(headers, rows);
+if (somethingHappened) {
+  updateLeaderboard(headers, rows);
+}
 
 // unban everyone banned more than $BAN_DURATION ago
 const bannedUsers: User[] = await mfetch(
