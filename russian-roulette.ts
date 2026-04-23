@@ -92,16 +92,12 @@ const bannedUsers: User[] = await fetch(
   },
 ).then((r) => r.json());
 for (const user of bannedUsers) {
-  const post = feed.posts.find((post) => {
-    const matchesUsername = post.username === user.username;
-
-    const createdAt = new Date(post.createdAt);
-    const bannedAgo = new Date(NOW - BAN_DURATION);
-    const correctTime = createdAt <= bannedAgo;
-
-    return matchesUsername && correctTime;
-  });
+  const post = feed.posts.find((post) => post.username === user.username);
   if (!post) continue;
+
+  const createdAt = new Date(post.createdAt);
+  const bannedAgo = new Date(NOW - BAN_DURATION);
+  if (createdAt > bannedAgo) continue;
 
   await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
     method: "DELETE",
