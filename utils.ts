@@ -151,6 +151,7 @@ export async function updateLeaderboard(
     method: "PUT",
     headers,
     body: JSON.stringify({
+      title: "Ban leaderboard",
       body: rendered,
     }),
   });
