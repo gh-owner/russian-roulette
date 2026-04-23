@@ -15,7 +15,7 @@ export async function mfetch(input: string, init?: RequestInit) {
         `Request failed
 ${init?.method ?? "GET"} ${input}
 Body: ${init?.body}
-Error: ${error}
+Error: ${JSON.stringify(error)}
 `,
       );
       process.exit(1);
