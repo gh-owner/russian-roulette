@@ -1,6 +1,6 @@
 import process from "node:process";
 
-type Post = { createdAt: string; username: string };
+type Post = { publicId: string; createdAt: string; username: string };
 type Feed = { posts: Post[] };
 type User = { username: string };
 
@@ -63,6 +63,8 @@ let somethingHappened = false;
 for (const post of posts) {
   const random = Math.floor(Math.random() * 6);
   console.log(`Rolled a ${random}`);
+  let message = "";
+
   if (random === 2) {
     await fetch(`https://discuit.org/api/communities/${COMMUNITY_ID}/banned`, {
       method: "POST",
@@ -77,10 +79,20 @@ for (const post of posts) {
         process.exit(1);
       }
     });
-    console.log(`${post.username} has been banned for ${BAN_DURATION}ms`);
+    message = `${post.username} has been banned for ${BAN_DURATION / 60 / 60 / 1000} hours`;
   } else {
-    console.log(`${post.username} is safe today`);
+    message = `${post.username} is safe today`;
   }
+
+  console.log(message);
+  await fetch(`https://discuit.org/api/posts/${post.publicId}/comments`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      parentCommentId: null,
+      body: `[BOT] ${message}`,
+    }),
+  });
   somethingHappened = true;
 }
 
